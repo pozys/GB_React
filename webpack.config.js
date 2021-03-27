@@ -146,6 +146,23 @@ module.exports = {
           presets: ["@babel/env", "@babel/react"],
         },
       },
+      {
+        test: /\.(js|jsx)$/,
+        include: `${__dirname}/src`,
+        loader: "babel-loader",
+        exclude: /node_modules/,
+        options: {
+          presets: ["@babel/env", "@babel/react"],
+          plugins: [
+            [
+              "@babel/plugin-proposal-class-properties",
+              {
+                loose: true,
+              },
+            ],
+          ],
+        },
+      },
     ],
   },
   resolve: {
