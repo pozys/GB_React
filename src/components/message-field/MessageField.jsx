@@ -1,8 +1,10 @@
 import React from "react";
-import Message from "./Message";
-import InputField from "./InputField";
+import { Message } from "./message";
+import { InputField } from "./message/input-field";
+import SendRoundedIcon from "@material-ui/icons/SendRounded";
+import { Button } from "@material-ui/core";
 
-export default class MessageField extends React.Component {
+export class MessageField extends React.Component {
   constructor(props) {
     super(props);
     this.inputRef = React.createRef();
@@ -10,22 +12,33 @@ export default class MessageField extends React.Component {
   }
   state = {
     messages: [],
+    inputText: "",
   };
 
-  handleMessageSenging = () => {
-    const messageText = this.inputRef.current.value;
+  sendMessage = () => {
+    let messageText = this.state.inputText;
     if (!messageText) {
       return;
     }
-
-    this.inputRef.current.value = "";
 
     this.setState({
       messages: [
         ...this.state.messages,
         { text: messageText, author: "Human" },
       ],
+      inputText: "",
     });
+  };
+
+  keyUpHandler = (event) => {
+    console.log(event);
+    if (event.keyCode === 13) {
+      this.sendMessage();
+    }
+  };
+
+  changeHandler = (event) => {
+    this.setState({ inputText: event.target.value });
   };
 
   render() {
@@ -36,11 +49,20 @@ export default class MessageField extends React.Component {
     return (
       <div>
         {messageElement}
-        <InputField
-          inputRef={this.inputRef}
-          handler={this.handleMessageSenging}
-        />
-        <button onClick={this.handleMessageSenging}>Send message</button>
+        <div style={{ display: "flex" }}>
+          <InputField
+            keyUpHandler={this.keyUpHandler}
+            changeHandler={this.changeHandler}
+            value={this.state.inputText}
+          />
+          <Button
+            onClick={this.sendMessage}
+            variant="contained"
+            color="primary"
+          >
+            <SendRoundedIcon />
+          </Button>
+        </div>
       </div>
     );
   }
