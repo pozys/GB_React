@@ -1,4 +1,5 @@
 import React from "react";
+import InputAdornment from "@material-ui/core/InputAdornment";
 import { Message } from "./message";
 import { InputField } from "./message/input-field";
 import SendRoundedIcon from "@material-ui/icons/SendRounded";
@@ -49,19 +50,15 @@ export class MessageField extends React.Component {
     return (
       <div>
         {messageElement}
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", margin: "30px" }}>
           <InputField
             keyUpHandler={this.keyUpHandler}
             changeHandler={this.changeHandler}
             value={this.state.inputText}
           />
-          <Button
-            onClick={this.sendMessage}
-            variant="contained"
-            color="primary"
-          >
-            <SendRoundedIcon />
-          </Button>
+          <InputAdornment position="end">
+            <SendRoundedIcon onClick={this.sendMessage} />
+          </InputAdornment>
         </div>
       </div>
     );

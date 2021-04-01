@@ -26,10 +26,8 @@ export class Message extends React.Component {
   render() {
     return (
       <StyledCard>
-        <Card variant="outlined">
-          <b>{this.props.author}</b>
-          {": " + this.props.text}
-        </Card>
+        <b>{this.props.author}</b>
+        {": " + this.props.text}
       </StyledCard>
     );
   }
