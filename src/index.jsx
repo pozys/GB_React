@@ -1,15 +1,24 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { MainLayout } from "@components";
-import { MuiThemeProvider } from "@material-ui/core/styles";
+import React from "react"
+import ReactDOM from "react-dom"
+import { ThemeProvider, createMuiTheme } from "@material-ui/core"
+import { BrowserRouter } from "react-router-dom"
+import CssBaseline from "@material-ui/core/CssBaseline"
+import { MainLayout } from "@components"
 
-import "./index.css";
+import "./index.css"
+
+const lightheme = createMuiTheme({
+  palette: {
+    type: "light",
+  },
+})
 
 ReactDOM.render(
-  <MuiThemeProvider>
-    <CssBaseline />
-    <MainLayout />
-  </MuiThemeProvider>,
-  document.getElementById("root")
-);
+  <BrowserRouter>
+    <ThemeProvider theme={lightheme}>
+      <CssBaseline />
+      <MainLayout />
+    </ThemeProvider>
+  </BrowserRouter>,
+  document.getElementById("root"),
+)

@@ -1,14 +1,14 @@
-const path = require("path");
-const isDevelopment = process.env.NODE_ENV === "development";
+const path = require("path")
+const isDevelopment = process.env.NODE_ENV === "development"
 const getFileNameByEnv = (ext = "[ext]", name = "[name]") => {
-  return isDevelopment ? `${name}.${ext}` : `${name}.[contenthash].${ext}`;
-};
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const OptimizeCssAssetWebpackPlugin = require("optimize-css-assets-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+  return isDevelopment ? `${name}.${ext}` : `${name}.[contenthash].${ext}`
+}
+const HtmlWebpackPlugin = require("html-webpack-plugin")
+const { CleanWebpackPlugin } = require("clean-webpack-plugin")
+const CopyWebpackPlugin = require("copy-webpack-plugin")
+const OptimizeCssAssetWebpackPlugin = require("optimize-css-assets-webpack-plugin")
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin")
 
 module.exports = {
   mode: process.env.NODE_ENV || "development",
@@ -180,5 +180,10 @@ module.exports = {
     hot: true,
     port: 3000,
     contentBase: path.resolve(__dirname, "build"),
+    historyApiFallback: {
+      index: "index.html",
+    },
   },
-};
+  devtool: !isDevelopment ? false : "source-map",
+  stats: "errors-only",
+}
