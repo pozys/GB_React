@@ -28,6 +28,7 @@ export class Message extends React.Component {
   render() {
     const { author, text, createdAt } = this.props
     const dateOptions = { hour: "numeric", minute: "numeric" }
+
     return (
       <StyledCard>
         <Typography

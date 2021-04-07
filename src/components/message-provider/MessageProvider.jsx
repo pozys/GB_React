@@ -1,16 +1,14 @@
 import React from "react"
+import { bindActionCreators } from "redux"
+import connect from "react-redux/es/connect/connect"
 import { MessageField, ChatList, NewChatNameDialog } from "@components"
+import { sendMessage } from "../../actions/chatActions"
 import Grid from "@material-ui/core/Grid"
 
-export class MessageProvider extends React.Component {
+export class MessageProviderView extends React.Component {
   constructor(props) {
     super(props)
     this.robotName = "robot"
-  }
-
-  state = {
-    chats: [],
-    dialogOpened: false,
   }
 
   componentDidUpdate() {
@@ -22,21 +20,13 @@ export class MessageProvider extends React.Component {
       return
     }
 
-    let modifiedConversations = this.state.chats
-    modifiedConversations[this.currentChatId()].messages = [
-      ...modifiedConversations[this.currentChatId()].messages,
-      {
-        text: "Вам ответит первый освободившийся робоператор...",
-        author: this.robotName,
-        createdAt: new Date(),
-      },
-    ]
-
     setTimeout(
       () =>
-        this.setState({
-          chats: modifiedConversations,
-        }),
+        this.props.sendMessage(
+          "Вам ответит первый освободившийся робоператор...",
+          this.currentChatId(),
+          this.robotName,
+        ),
       1000,
     )
   }
@@ -53,7 +43,8 @@ export class MessageProvider extends React.Component {
     if (isNaN(chatId)) {
       return []
     }
-    return this.state.chats[chatId].messages
+
+    return this.props.chats[chatId].messages
   }
 
   handleChatCreation = (chatName) => {
@@ -64,7 +55,7 @@ export class MessageProvider extends React.Component {
     let newChat = this.chatTemplate()
     newChat.title = chatName
     this.setState({
-      chats: [...this.state.chats, newChat],
+      chats: [...this.props.chats, newChat],
     })
   }
 
@@ -76,35 +67,13 @@ export class MessageProvider extends React.Component {
     }
   }
 
-  changeHandler = (event) => {
-    let modifiedConversations = this.state.chats
-    modifiedConversations[this.currentChatId()].inputText = event.target.value
-
-    this.setState({ chats: modifiedConversations })
-  }
-
   sendMessage = () => {
     const messageText = this.currentConversation().inputText
     if (!messageText) {
       return
     }
 
-    let modifiedConversations = this.state.chats
-    modifiedConversations[this.currentChatId()].messages = [
-      ...modifiedConversations[this.currentChatId()].messages,
-      { text: messageText, author: "Human", createdAt: new Date() },
-    ]
-    modifiedConversations[this.currentChatId()].inputText = ""
-
-    this.setState({
-      chats: modifiedConversations,
-    })
-  }
-
-  keyUpHandler = (event) => {
-    if (event.keyCode === 13) {
-      this.sendMessage()
-    }
+    this.props.sendMessage(messageText, this.currentChatId())
   }
 
   currentChatId = () => {
@@ -112,24 +81,17 @@ export class MessageProvider extends React.Component {
     return +id
   }
 
+  currentConversation = () => this.props.chats[this.currentChatId()]
+
   rightField = () => {
     if (this.currentConversation() !== undefined) {
-      return (
-        <MessageField
-          conversation={this.currentConversation()}
-          changeHandler={this.changeHandler}
-          sendMessage={this.sendMessage}
-          keyUpHandler={this.keyUpHandler}
-        />
-      )
+      return <MessageField chatId={this.currentChatId()} />
     }
     return <div>Выберите чат</div>
   }
 
-  currentConversation = () => this.state.chats[this.currentChatId()]
-
   existingChats = () => {
-    return this.state.chats.map((item, index) => {
+    return this.props.chats.map((item, index) => {
       let chatDescription = {
         id: index,
         title: item.title,
@@ -163,11 +125,7 @@ export class MessageProvider extends React.Component {
             lg={2}
           >
             <Grid item>
-              <ChatList
-                chats={this.existingChats()}
-                selectedChat={this.currentChatId()}
-                addNewChatHandler={this.addNewChat}
-              />
+              <ChatList selectedChat={this.currentChatId()} />
             </Grid>
           </Grid>
           <Grid container justify="space-around" alignItems="flex-end" lg={10}>
@@ -176,12 +134,18 @@ export class MessageProvider extends React.Component {
             </Grid>
           </Grid>
         </Grid>
-        <NewChatNameDialog
-          opened={this.state.dialogOpened}
-          closeDialogHandler={this.closeDialog}
-          handleChatCreation={this.handleChatCreation}
-        />
+        <NewChatNameDialog />
       </>
     )
   }
 }
+
+const mapStateToProps = ({ chatReducer }) => ({ chats: chatReducer.chats })
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ sendMessage }, dispatch)
+
+export const MessageProvider = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(MessageProviderView)

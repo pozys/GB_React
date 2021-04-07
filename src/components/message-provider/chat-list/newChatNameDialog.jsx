@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react"
+import { bindActionCreators } from "redux"
+import connect from "react-redux/es/connect/connect"
 import Button from "@material-ui/core/Button"
 import TextField from "@material-ui/core/TextField"
 import Dialog from "@material-ui/core/Dialog"
@@ -6,8 +8,9 @@ import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
 import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
+import { createChat, closeNewChatDialog } from "../../../actions/chatActions"
 
-export function NewChatNameDialog(props) {
+export function NewChatNameDialogView(props) {
   const [open, setOpen] = useState(false)
   const [chatName, handleNameChange] = useState("")
 
@@ -21,7 +24,7 @@ export function NewChatNameDialog(props) {
       return
     }
 
-    props.handleChatCreation(chatName)
+    props.createChat(chatName)
     handleClose()
   }
 
@@ -31,7 +34,7 @@ export function NewChatNameDialog(props) {
 
   const handleClose = () => {
     setOpen(false)
-    props.closeDialogHandler()
+    props.closeNewChatDialog()
   }
 
   return (
@@ -65,3 +68,15 @@ export function NewChatNameDialog(props) {
     </div>
   )
 }
+
+const mapStateToProps = ({ chatReducer }) => ({
+  opened: chatReducer.dialogOpened,
+})
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ createChat, closeNewChatDialog }, dispatch)
+
+export const NewChatNameDialog = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(NewChatNameDialogView)

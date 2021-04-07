@@ -1,18 +1,23 @@
 import React from "react"
+import { bindActionCreators } from "redux"
+import connect from "react-redux/es/connect/connect"
 import { Message } from "./message"
 import { InputField } from "./message/input-field"
 
-export class MessageField extends React.Component {
+export class MessageFieldView extends React.Component {
   constructor(props) {
     super(props)
     this.inputRef = React.createRef()
     this.robotName = "robot"
   }
 
-  messages = () => this.props.conversation.messages
-  inputText = () => this.props.conversation.inputText
+  messages = () => {
+    return this.props.chats[this.props.chatId].messages
+  }
 
   render() {
+    const currentConversation = this.props.chats[this.props.chatId]
+
     const messageElement = this.messages().map((message, index) => (
       <Message key={index} {...message} />
     ))
@@ -22,13 +27,22 @@ export class MessageField extends React.Component {
         {messageElement}
         <div style={{ display: "flex", margin: "30px" }}>
           <InputField
-            keyUpHandler={this.props.keyUpHandler}
-            changeHandler={this.props.changeHandler}
-            value={this.inputText()}
-            sendMessage={this.props.sendMessage}
+            value={currentConversation.inputText}
+            chatId={this.props.chatId}
           />
         </div>
       </div>
     )
   }
 }
+
+const mapStateToProps = ({ chatReducer }) => {
+  return { chats: chatReducer.chats }
+}
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch)
+
+export const MessageField = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(MessageFieldView)
