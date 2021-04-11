@@ -11,26 +11,6 @@ export class MessageProviderView extends React.Component {
     this.robotName = "robot"
   }
 
-  componentDidUpdate() {
-    if (this.messages().length === 0) {
-      return
-    }
-
-    if (this.lastMessage().author === this.robotName) {
-      return
-    }
-
-    setTimeout(
-      () =>
-        this.props.sendMessage(
-          "Вам ответит первый освободившийся робоператор...",
-          this.currentChatId(),
-          this.robotName,
-        ),
-      1000,
-    )
-  }
-
   lastMessage = () => this.messages()[this.messages().length - 1]
 
   lastMessageByChatId = (chatId) =>

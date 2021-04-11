@@ -5,6 +5,10 @@ import {
   CLOSE_NEW_CHAT_DIALOG,
   SEND_MESSAGE,
   CHANGE_HANDLER,
+  NEW_MESSAGE_ALERT_START,
+  NEW_MESSAGE_ALERT_STOP,
+  DELETE_MESSAGE,
+  DELETE_CHAT,
 } from "../actions/chatActions"
 
 const innitialStore = {
@@ -51,6 +55,39 @@ export default function chatReducer(store = innitialStore, action) {
 
       return update(store, {
         chats: { $splice: [[action.chatId, 1, conversation]] },
+      })
+    }
+    case NEW_MESSAGE_ALERT_START: {
+      let conversation = store.chats[action.chatId]
+      conversation.newAlert = true
+
+      return update(store, {
+        chats: { $splice: [[action.chatId, 1, conversation]] },
+      })
+    }
+    case NEW_MESSAGE_ALERT_STOP: {
+      let conversation = store.chats[action.chatId]
+      conversation.newAlert = false
+
+      return update(store, {
+        chats: { $splice: [[action.chatId, 1, conversation]] },
+      })
+    }
+    case DELETE_MESSAGE: {
+      let conversation = store.chats[action.chatId]
+      conversation.messages = update(conversation.messages, {
+        $splice: [[action.messageIndex, 1]],
+      })
+
+      return update(store, {
+        chats: { $splice: [[action.chatId, 1, conversation]] },
+      })
+    }
+    case DELETE_CHAT: {
+      return update(store, {
+        chats: {
+          $splice: [[action.chatId, 1]],
+        },
       })
     }
 

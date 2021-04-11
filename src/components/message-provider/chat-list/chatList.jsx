@@ -1,13 +1,17 @@
 import React from "react"
 import { bindActionCreators } from "redux"
 import connect from "react-redux/es/connect/connect"
+import { push } from "connected-react-router"
 import List from "@material-ui/core/List"
 import { ChatItem } from "./chat-item"
-import { Link } from "react-router-dom"
 import Typography from "@material-ui/core/Typography"
 import { NewChatItem } from "./newChatItem"
 import { makeStyles } from "@material-ui/core/styles"
-import { addChat } from "../../../actions/chatActions"
+import {
+  handleContextMenuClick,
+  closeContextMenu,
+} from "../../../actions/contextMenuActions"
+import { addChat, deleteChat } from "../../../actions/chatActions"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,19 +26,22 @@ export function ChatListView(props) {
 
   let chats = existingChats(props.chats)
 
+  const handleNavigate = (link) => {
+    props.push(link)
+  }
+
   return (
     <div className={classes.root}>
       <List component="nav">
         <Typography variant="body1" className={classes.root}>
           <List component="nav">
             {chats.map((chat, index) => (
-              <Link to={`/chat/${index}/`} underline="none" color="inherit">
-                <ChatItem
-                  key={index}
-                  selectedIndex={props.selectedChat}
-                  {...chat}
-                />
-              </Link>
+              <ChatItem
+                key={index}
+                {...props}
+                {...chat}
+                handleClick={handleNavigate}
+              />
             ))}
           </List>
           <NewChatItem addNewChatHandler={props.addChat} />
@@ -53,6 +60,7 @@ const existingChats = (chats) => {
       id: index,
       title: item.title,
       lastMessage: lastMessageByChatId(chats, index) || {},
+      newAlert: item.newAlert,
     }
     return chatDescription
   })
@@ -69,7 +77,10 @@ const mapStateToProps = ({ chatReducer }) => {
 }
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ addChat }, dispatch)
+  bindActionCreators(
+    { handleContextMenuClick, closeContextMenu, addChat, push, deleteChat },
+    dispatch,
+  )
 
 export const ChatList = connect(
   mapStateToProps,

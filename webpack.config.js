@@ -19,6 +19,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "build"),
     filename: getFileNameByEnv("js"),
+    publicPath: "/",
   },
   optimization: isDevelopment
     ? {}
@@ -180,9 +181,7 @@ module.exports = {
     hot: true,
     port: 3000,
     contentBase: path.resolve(__dirname, "build"),
-    historyApiFallback: {
-      index: "index.html",
-    },
+    historyApiFallback: true,
   },
   devtool: !isDevelopment ? false : "source-map",
   stats: "errors-only",
