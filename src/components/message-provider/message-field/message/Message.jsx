@@ -23,7 +23,7 @@ export class Message extends React.Component {
   static propTypes = {
     text: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
-    createdAt: PropTypes.object.isRequired,
+    createdAt: PropTypes.string.isRequired,
   }
 
   render() {
@@ -71,7 +71,7 @@ export class Message extends React.Component {
             color="textPrimary"
             align="right"
           >
-            {createdAt.toLocaleString("ru", dateOptions)}
+            {createdAt}
           </Typography>
         </StyledCard>
         <ContextMenu

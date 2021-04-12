@@ -50,7 +50,6 @@ export function ChatItem(props) {
       style={{ cursor: "context-menu" }}
     >
       <ListItem
-        alignItems="flex-start"
         button
         className={listItemClassNames}
         selected={selectedIndex === id}

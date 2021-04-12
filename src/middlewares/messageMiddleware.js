@@ -9,12 +9,14 @@ export default (store) => (next) => (action) => {
         return next(action)
       }
 
+      const dateOptions = { hour: "numeric", minute: "numeric" }
       setTimeout(
         () =>
           store.dispatch(
             sendMessage(
               "Вам ответит первый освободившийся робоператор...",
               action.chatId,
+              new Date().toLocaleString("ru", dateOptions),
               robotName,
             ),
           ),

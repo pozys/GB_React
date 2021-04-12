@@ -40,7 +40,7 @@ export default function chatReducer(store = innitialStore, action) {
       let conversation = store.chats[action.chatId]
       conversation.messages = [
         ...conversation.messages,
-        { text: action.text, author: action.author, createdAt: new Date() },
+        { text: action.text, author: action.author, createdAt: action.date },
       ]
 
       conversation.inputText = ""

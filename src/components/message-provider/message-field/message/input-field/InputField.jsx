@@ -15,7 +15,12 @@ export class InputFieldView extends React.Component {
       return
     }
 
-    this.props.sendMessage(messageText, this.props.chatId)
+    const dateOptions = { hour: "numeric", minute: "numeric" }
+    this.props.sendMessage(
+      messageText,
+      this.props.chatId,
+      new Date().toLocaleString("ru", dateOptions),
+    )
   }
 
   keyUpHandler = (event) => {

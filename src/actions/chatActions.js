@@ -26,9 +26,10 @@ export const createChat = (title) => ({
   },
 })
 
-export const sendMessage = (text, chatId, author = "Human") => ({
+export const sendMessage = (text, chatId, date, author = "Human") => ({
   type: SEND_MESSAGE,
   text,
+  date,
   author,
   chatId,
 })

@@ -4,6 +4,7 @@ import connect from "react-redux/es/connect/connect"
 import { MessageField, ChatList, NewChatNameDialog } from "@components"
 import { sendMessage } from "../../actions/chatActions"
 import Grid from "@material-ui/core/Grid"
+import styles from "../layouts/mainLayout.module.css"
 
 export class MessageProviderView extends React.Component {
   constructor(props) {
@@ -96,25 +97,13 @@ export class MessageProviderView extends React.Component {
   render() {
     return (
       <>
-        <Grid container direction="row" justify="space-between" lg={11}>
-          <Grid
-            container
-            direction="row"
-            justify="flex-start"
-            alignItems="stretch"
-            lg={2}
-          >
-            <Grid item>
-              <ChatList selectedChat={this.currentChatId()} />
-            </Grid>
-          </Grid>
-          <Grid container justify="space-around" alignItems="flex-end" lg={10}>
-            <Grid item lg={12}>
-              {this.rightField()}
-            </Grid>
-          </Grid>
-        </Grid>
-        <NewChatNameDialog />
+        <div className={styles.chats}>
+          <ChatList selectedChat={this.currentChatId()} />
+        </div>
+        <div className={styles.messages}>{this.rightField()}</div>
+        <div className={styles.messages}>
+          <NewChatNameDialog />
+        </div>
       </>
     )
   }

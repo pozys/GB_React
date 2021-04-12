@@ -39,8 +39,10 @@ const ContextMenuView = (props) => {
           : undefined
       }
     >
-      {props.menuItems.map((item) => (
-        <MenuItem onClick={item.action}>{item.title}</MenuItem>
+      {props.menuItems.map((item, index) => (
+        <MenuItem key={index} onClick={item.action}>
+          {item.title}
+        </MenuItem>
       ))}
     </Menu>
   )

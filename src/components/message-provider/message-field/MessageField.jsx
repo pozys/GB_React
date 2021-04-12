@@ -30,12 +30,11 @@ export class MessageFieldView extends React.Component {
     return (
       <div>
         {messageElement}
-        <div style={{ display: "flex", margin: "30px" }}>
-          <InputField
-            value={currentConversation.inputText}
-            chatId={this.props.chatId}
-          />
-        </div>
+
+        <InputField
+          value={currentConversation.inputText}
+          chatId={this.props.chatId}
+        />
       </div>
     )
   }
