@@ -1,4 +1,5 @@
-import { sendMessage, SEND_MESSAGE } from "../actions/chatActions"
+import { sendMessage } from "../actions/chatActions"
+import { SEND_MESSAGE } from "../utils/types"
 
 const robotName = "robot"
 

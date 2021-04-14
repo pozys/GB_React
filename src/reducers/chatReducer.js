@@ -9,11 +9,15 @@ import {
   NEW_MESSAGE_ALERT_STOP,
   DELETE_MESSAGE,
   DELETE_CHAT,
-} from "../actions/chatActions"
+  GET_CHATS_WAITING,
+  GET_CHATS_SUCCESS,
+  GET_CHATS_ERROR,
+} from "../utils/types"
 
 const innitialStore = {
   chats: [],
   dialogOpened: false,
+  chatsWaiting: false,
 }
 
 export default function chatReducer(store = innitialStore, action) {
@@ -88,6 +92,24 @@ export default function chatReducer(store = innitialStore, action) {
         chats: {
           $splice: [[action.chatId, 1]],
         },
+      })
+    }
+
+    case GET_CHATS_WAITING: {
+      return update(store, {
+        chatsWaiting: { $set: true },
+      })
+    }
+    case GET_CHATS_SUCCESS: {
+      return update(store, {
+        chats: { $set: action.payload.data },
+        chatsWaiting: { $set: false },
+      })
+    }
+    case GET_CHATS_ERROR: {
+      console.error(action.payload)
+      return update(store, {
+        chatsWaiting: { $set: false },
       })
     }
 

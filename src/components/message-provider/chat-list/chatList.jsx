@@ -1,6 +1,7 @@
 import React from "react"
 import { bindActionCreators } from "redux"
 import connect from "react-redux/es/connect/connect"
+import { Spinner } from "@components"
 import { push } from "connected-react-router"
 import List from "@material-ui/core/List"
 import { ChatItem } from "./chat-item"
@@ -13,6 +14,10 @@ import {
 import { addChat, deleteChat } from "../../../actions/chatActions"
 
 export function ChatListView(props) {
+  if (props.chatsWaiting) {
+    return <Spinner />
+  }
+
   let chats = existingChats(props.chats)
 
   const handleNavigate = (link) => {
@@ -60,6 +65,7 @@ const messages = (chats, chatId) => {
 const mapStateToProps = ({ chatReducer }) => {
   return {
     chats: chatReducer.chats,
+    chatsWaiting: chatReducer.chatsWaiting,
   }
 }
 

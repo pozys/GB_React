@@ -2,14 +2,17 @@ import React from "react"
 import { bindActionCreators } from "redux"
 import connect from "react-redux/es/connect/connect"
 import { MessageField, ChatList, NewChatNameDialog } from "@components"
-import { sendMessage } from "../../actions/chatActions"
-import Grid from "@material-ui/core/Grid"
+import { sendMessage, getChats } from "../../actions/chatActions"
 import styles from "../layouts/mainLayout.module.css"
 
 export class MessageProviderView extends React.Component {
   constructor(props) {
     super(props)
     this.robotName = "robot"
+  }
+
+  componentDidMount() {
+    this.props.getChats()
   }
 
   lastMessage = () => this.messages()[this.messages().length - 1]
@@ -109,10 +112,12 @@ export class MessageProviderView extends React.Component {
   }
 }
 
-const mapStateToProps = ({ chatReducer }) => ({ chats: chatReducer.chats })
+const mapStateToProps = ({ chatReducer }) => ({
+  chats: chatReducer.chats,
+})
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ sendMessage }, dispatch)
+  bindActionCreators({ sendMessage, getChats }, dispatch)
 
 export const MessageProvider = connect(
   mapStateToProps,

@@ -21,10 +21,11 @@ const ContextMenuView = (props) => {
     props.contextMenuState[
       `${props.chatId}_${props?.messageIndex ? props.messageIndex : ""}`
     ]
+
   return (
     <Menu
       keepMounted
-      open={currentMenu && currentMenu.mouseY !== null}
+      open={currentMenu !== undefined && currentMenu.mouseY !== null}
       onClose={handleClose}
       anchorReference="anchorPosition"
       anchorPosition={

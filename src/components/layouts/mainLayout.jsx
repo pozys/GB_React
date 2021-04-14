@@ -1,7 +1,5 @@
 import React from "react"
 import { Header, MessageProvider } from "@components"
-import Container from "@material-ui/core/Container"
-import Grid from "@material-ui/core/Grid"
 import { Route, Switch } from "react-router-dom"
 import styles from "./mainLayout.module.css"
 

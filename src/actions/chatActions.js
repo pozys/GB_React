@@ -1,12 +1,19 @@
-export const ADD_CHAT = "@@chat/ADD_CHAT"
-export const CREATE_CHAT = "@@chat/CREATE_CHAT"
-export const CLOSE_NEW_CHAT_DIALOG = "@@chat/CLOSE_NEW_CHAT_DIALOG"
-export const SEND_MESSAGE = "@@message/SEND_MESSAGE"
-export const DELETE_MESSAGE = "@@chat/DELETE_MESSAGE"
-export const CHANGE_HANDLER = "@@message/CHANGE_HANDLER"
-export const NEW_MESSAGE_ALERT_START = "@@chat/NEW_MESSAGE_ALERT_START"
-export const NEW_MESSAGE_ALERT_STOP = "@@chat/NEW_MESSAGE_ALERT_STOP"
-export const DELETE_CHAT = "@@chat/DELETE_CHAT"
+import {
+  ADD_CHAT,
+  CREATE_CHAT,
+  CLOSE_NEW_CHAT_DIALOG,
+  SEND_MESSAGE,
+  DELETE_MESSAGE,
+  CHANGE_HANDLER,
+  NEW_MESSAGE_ALERT_START,
+  NEW_MESSAGE_ALERT_STOP,
+  DELETE_CHAT,
+  GET_CHATS_WAITING,
+  GET_CHATS_SUCCESS,
+  GET_CHATS_ERROR,
+} from "../utils/types"
+
+import { getChatsAPI } from "../api/requests"
 
 export const addChat = () => ({
   type: ADD_CHAT,
@@ -60,3 +67,16 @@ export const deleteChat = (chatId) => ({
   type: DELETE_CHAT,
   chatId,
 })
+
+export const getChats = () => async (dispatch) => {
+  dispatch({ type: GET_CHATS_WAITING })
+
+  try {
+    const data = await getChatsAPI()
+    setTimeout(() => {
+      dispatch({ type: GET_CHATS_SUCCESS, payload: data })
+    }, 3000)
+  } catch (error) {
+    dispatch({ type: GET_CHATS_ERROR, payload: error })
+  }
+}
