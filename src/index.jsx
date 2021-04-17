@@ -4,7 +4,7 @@ import { ThemeProvider, createMuiTheme } from "@material-ui/core"
 import { ConnectedRouter } from "connected-react-router"
 import { Provider } from "react-redux"
 import CssBaseline from "@material-ui/core/CssBaseline"
-import { MainLayout } from "@components"
+import { MainLayout, InstallPopup } from "@components"
 import initStore, { history } from "./utils/store"
 
 import "./index.css"
@@ -21,6 +21,7 @@ ReactDOM.render(
       <ThemeProvider theme={lightTheme}>
         <CssBaseline />
         <MainLayout />
+        <InstallPopup />
       </ThemeProvider>
     </ConnectedRouter>
   </Provider>,

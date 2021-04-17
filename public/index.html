@@ -12,10 +12,43 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
     />
-    <title>Chat</title>
+    <link rel="manifest" href="../manifest/manifest.json" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>IChat</title>
   </head>
   <body style="height: 100%; margin: 0">
     <script src="/build/app.js"></script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker
+            .register("/service-worker.js")
+            .then(
+              function (registration) {
+                // Registration was successful
+                console.log(
+                  "ServiceWorker успешно зарегистрирован со сферой действия: ",
+                  registration.scope,
+                )
+              },
+              function (err) {
+                // registration failed :(
+                console.log("ServiceWorker не удалось зарегистрировать: ", err)
+              },
+            )
+            .catch(function (err) {
+              console.log(err)
+            })
+        })
+      } else {
+        console.log("ServiceWorker не поддерживается")
+      }
+    </script>
+
     <div style="height: 100%" id="root"></div>
+    <script src="../notifications.js"></script>
   </body>
 </html>

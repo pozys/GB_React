@@ -69,7 +69,11 @@ export class MessageProviderView extends React.Component {
 
   rightField = () => {
     if (this.currentConversation() !== undefined) {
-      return <MessageField chatId={this.currentChatId()} />
+      return (
+        <div>
+          <MessageField chatId={this.currentChatId()} />
+        </div>
+      )
     }
     return <div>Выберите чат</div>
   }
@@ -99,15 +103,15 @@ export class MessageProviderView extends React.Component {
 
   render() {
     return (
-      <>
+      <div className={styles.content}>
         <div className={styles.chats}>
-          <ChatList selectedChat={this.currentChatId()} />
+          <div>
+            <ChatList selectedChat={this.currentChatId()} />
+          </div>
         </div>
         <div className={styles.messages}>{this.rightField()}</div>
-        <div className={styles.messages}>
-          <NewChatNameDialog />
-        </div>
-      </>
+        <NewChatNameDialog />
+      </div>
     )
   }
 }

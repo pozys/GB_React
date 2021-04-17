@@ -8,6 +8,20 @@ import {
   closeContextMenu,
 } from "../../../actions/contextMenuActions"
 import { deleteMessage } from "../../../actions/chatActions"
+import styles from "./messageField.module.css"
+import { withStyles } from "@material-ui/core"
+
+const StyledInput = withStyles(() => {
+  return {
+    root: {
+      "&": {
+        color: "#9a9fa1",
+        padding: "10px 15px",
+        fontSize: "15px",
+      },
+    },
+  }
+})(InputField)
 
 export class MessageFieldView extends React.Component {
   constructor(props) {
@@ -28,10 +42,10 @@ export class MessageFieldView extends React.Component {
     ))
 
     return (
-      <div>
+      <div className={styles.messagesContainer}>
         {messageElement}
 
-        <InputField
+        <StyledInput
           value={currentConversation.inputText}
           chatId={this.props.chatId}
         />

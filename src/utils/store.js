@@ -22,12 +22,7 @@ function initStore() {
   const store = createStore(
     initReducers(history),
     innitialStore,
-    compose(
-      applyMiddleware(routerMiddleware(history), thunk, ...middlewares),
-      window.__REDUX_DEVTOOLS_EXTENSION__
-        ? window.__REDUX_DEVTOOLS_EXTENSION__()
-        : () => {},
-    ),
+    compose(applyMiddleware(routerMiddleware(history), thunk, ...middlewares)),
   )
 
   return store

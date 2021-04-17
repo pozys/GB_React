@@ -1,0 +1,48 @@
+/* .contextMenu:nth-child(odd) {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 15px 10px;
+}
+
+.contextMenu:nth-child(even) {
+  height: 37px;
+  flex: none;
+  background-color: #17212b;
+} */
+
+.contextMenu > div > div {
+  border-radius: 10px;
+  padding: 10px;
+  width: 45%;
+  margin: auto 0 10px 0;
+  font-size: 14px;
+  line-height: 1.5;
+  cursor: "context-menu";
+}
+
+.robotsMessage,
+.contextMenu > .robotsMessage > div {
+  border-radius: 10px;
+  background-color: #182533;
+}
+
+.contextMenu > div > div > span {
+  color: #fff;
+}
+
+.currentMessage,
+.contextMenu > .currentMessage > div {
+  border-radius: 10px;
+  margin: 0 0 10px auto;
+  background-color: #2b5278;
+}
+
+.contextMenu > div p:last-child {
+  color: #435564;
+  text-align: right;
+}
+
+.currentMessage p:last-child {
+  color: #45719f;
+  text-align: right;
+}

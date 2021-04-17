@@ -1,23 +1,9 @@
 import React from "react"
-import { withStyles } from "@material-ui/core"
 import PropTypes from "prop-types"
 import Typography from "@material-ui/core/Typography"
 import Card from "@material-ui/core/Card"
 import { ContextMenu } from "../../../context-menu"
-
-const StyledCard = withStyles(() => {
-  return {
-    root: {
-      "&": {
-        backgroundColor: "lightblue",
-        padding: "5px 15px",
-        borderRadius: "20px",
-        fontSize: "18px",
-        margin: "5px",
-      },
-    },
-  }
-})(Card)
+import styles from "./message.module.css"
 
 export class Message extends React.Component {
   static propTypes = {
@@ -28,7 +14,6 @@ export class Message extends React.Component {
 
   render() {
     const { author, text, createdAt } = this.props
-    const dateOptions = { hour: "numeric", minute: "numeric" }
 
     const menuItems = [
       {
@@ -52,34 +37,40 @@ export class Message extends React.Component {
 
     return (
       <div
+        className={styles.contextMenu}
         onContextMenu={(event) => handleContextMenuClick(event)}
-        style={{ cursor: "context-menu" }}
       >
-        <StyledCard>
-          <Typography
-            paragraph
-            component="span"
-            variant="body1"
-            color="textPrimary"
-          >
-            <b>{author}</b>
-            {": " + text}
-          </Typography>
-          <Typography
-            component="div"
-            variant="body1"
-            color="textPrimary"
-            align="right"
-          >
-            {createdAt}
-          </Typography>
-        </StyledCard>
-        <ContextMenu
-          menuItems={menuItems}
-          chatId={this.props.chatId}
-          messageIndex={this.props.messageIndex}
-          handleClose={this.props.closeContextMenu}
-        />
+        <div
+          className={
+            author !== "robot" ? styles.currentMessage : styles.robotsMessage
+          }
+        >
+          <Card>
+            <Typography
+              paragraph
+              component="span"
+              variant="body1"
+              color="textPrimary"
+            >
+              <b>{author}</b>
+              {": " + text}
+            </Typography>
+            <Typography
+              component="div"
+              variant="body1"
+              color="textPrimary"
+              align="right"
+            >
+              {createdAt}
+            </Typography>
+          </Card>
+          <ContextMenu
+            menuItems={menuItems}
+            chatId={this.props.chatId}
+            messageIndex={this.props.messageIndex}
+            handleClose={this.props.closeContextMenu}
+          />
+        </div>
       </div>
     )
   }

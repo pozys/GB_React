@@ -11,14 +11,9 @@ export class MainLayout extends React.Component {
           <Header />
         </div>
 
-        <div className={styles.content}>
-          <Switch>
-            <Route
-              path={["/chat/:id/", "/"]}
-              component={MessageProvider}
-            ></Route>
-          </Switch>
-        </div>
+        <Switch>
+          <Route path={["/chat/:id/", "/"]} component={MessageProvider}></Route>
+        </Switch>
       </div>
     )
   }

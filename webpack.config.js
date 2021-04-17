@@ -40,6 +40,22 @@ module.exports = {
       },
     }),
     new CleanWebpackPlugin(),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, "service-worker.js"),
+          to: path.resolve(__dirname, "build/service-worker.js"),
+        },
+        {
+          from: path.resolve(__dirname, "manifest"),
+          to: path.resolve(__dirname, "build/manifest"),
+        },
+        {
+          from: path.resolve(__dirname, "notifications.js"),
+          to: path.resolve(__dirname, "build/notifications.js"),
+        },
+      ],
+    }),
 
     new MiniCssExtractPlugin({
       filename: `./css/${getFileNameByEnv("css")}`,

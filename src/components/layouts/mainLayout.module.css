@@ -29,7 +29,6 @@
   border-right: 1px solid #000;
   height: 95%;
 }
-
 .messages {
   flex-grow: 1;
   display: flex;
@@ -37,7 +36,6 @@
   width: 80%;
   background-color: #0e1621;
 }
-
 .messages > div:nth-child(1) {
   flex-grow: 1;
   overflow-y: auto;
